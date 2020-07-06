@@ -1,0 +1,24 @@
+body, html {
+    background-color: #f0f0f0;
+}
+
+*:link,
+*:visited {
+  outline: none;
+  text-decoration: none;
+  border: none;
+  content: none;
+}
+
+a:hover, button:hover, input[type='submit']:hover {
+    opacity: 0.85;
+    cursor: pointer;
+}
+
+.min-w-64 {
+    min-height: 16rem;
+}
+
+.modal {
+    text-align: center;
+}

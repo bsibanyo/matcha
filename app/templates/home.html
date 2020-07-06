@@ -1,0 +1,100 @@
+{% extends "layout.html" %}
+
+{% block title %}
+· {{ user.username }} · Home
+{% endblock %}
+
+{% block content %}
+    {% include 'includes/msg.html' %}
+    <main>
+        <form action="" method="post" class="form sign-in">
+            {{ form.csrf_token }}
+            {% include 'includes/form_errs.html' %}
+            <div>
+                <p style="text-align: center;">Find Your Match!</p>
+                
+                <div style="text-align: center;">
+                    <input id="min_age" name="min_age" type="number" placeholder="Min Age" min="0" max="100">
+                    <input id="max_age" name="max_age" type="number" placeholder="Max Age" min="0" max="100">
+                </div class="form sign-in">
+                <div style="text-align: center;">
+                    <input id="min_pop" name="min_pop" type="number" placeholder="Min Fame" min="1" max="5">
+                    <input  id="max_pop" name="max_pop" type="number" placeholder="Max Fame" min="1" max="5">
+                </div>
+                <div style="text-align: center;">
+                    <input id="distance" name="distance" type="number" placeholder="Distance from you">
+                </div>
+                <div style="text-align: center;">
+                    <input class="" id="tags" name="tags" type="text" placeholder="Interests">
+                </div>
+                <div style="text-align: center;">
+                    <select class="" id="sort" name="sort">
+                        <option value="" selected="selected">Find By:</option>
+                        {% for choice in form.sort.choices %}
+                            <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form sign-in" style="text-align: center;">
+                    <button type="submit" class="submit">Find</button>
+                </div>
+            </div>
+        </form>
+        <div class="img-area">
+            {% for user in why_not %}
+                <a href="{{ url_for('profile.profile', username=user.username) }}" class="" style="width:10%" style="font-size: 10px;">
+                    <div class="img-area">
+                        <img src="{{ user.main_photo }}" style="width:100%">
+                    </div>
+                    <div class="" style="font-size: 10px;">
+                        {% if user.is_connected %}
+                            <p class=""></p>
+                            <p class="">Online</p>
+                        {% elif user.last_connection %}
+                            <p class=""></p>
+                            <p class="">Offline : {{ user.last_connection }}</p>
+                        {% else %}
+                            <p class=""></p>
+                            <p class="">Auto account</p>
+                        {% endif %}
+                    </div>
+                    <div class="" style="font-size: 10px;">
+                        <p class="" style="font-size: 10px;">
+                            {% if user.gender == 'm' %}
+                                <i class="fas fa-mars"  style="color: blue;"></i>
+                            {% elif user.gender == 'f' %}
+                                <i class="fas fa-venus" style="color: pink;"></i>
+                            {% elif user.gender == 't' %}
+                                <i class="fas fa-transgender" style="color: rgb(71, 169, 250) ;"></i>
+                                <!-- <i class="fa fa-transgender" aria-hidden="true"></i> -->
+                            {% elif user.gender == 'o' %}
+                                <i class="fas fa-genderless" style="color: currentColor;"></i>
+                            {% endif %}
+                            <span class="">
+                                {{ user.firstname }}
+                            </span>
+                            <span class="">
+                                {{ user.lastname.0 }}.
+                            </span>
+                            <span class="">
+                                (<i class="fas fa-star" style="color: goldenrod;"></i>
+                                {{ user.popularity }})
+                            </span>
+                        </p>
+                        <p class="" style="width:20%">
+                            {{ user.age }} yrs
+                        </p>
+                    </div>
+                <div class=""  style="font-size: 10px;">
+                    <p class="">
+                        {{ user.city }}
+                        <span class="text-xs ml-1">({{ user.distance }} km from you)</span>
+                    </p>
+                </div>
+                </a>
+            {% endfor %}
+    
+        </div>
+    </main>
+   
+{% endblock %}

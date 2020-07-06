@@ -1,0 +1,348 @@
+<!-- {% extends "layout.html" %} -->
+{% block title %}
+    {{ user.username }} · profile
+{% endblock %}
+{% block content %}
+<style>
+    body{
+        top: 0;
+        margin: 0;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Nunito', sans-serif;
+        font-size: 18px;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #fafafa;
+    }
+    li{
+        float: left;
+    }
+    li .nav{
+        width: 110px;
+        height: 90px;
+    }
+    li,a{
+        display: block;
+        color: #ff727e;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+        list-style: none;
+    }
+    li a:hover {
+        background-color: #fafafa;
+    }
+    .center{
+        width: 1000px;
+    }
+    button{
+        width: 90px;
+        background-color:#ff727e;
+        color: white;
+        padding: 8px;
+        /* margin: 8px 0; */
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    textarea{
+        width: 250px;
+        height: 80px;
+        border: 3px solid #ff727e;
+        padding: 5px;
+        font-family: Tahoma, sans-serif;
+    }
+    .center {
+        margin: auto;
+        width: 60%;
+        /* border: 3px solid black; */
+        padding: 10px;
+        background: #fafafa;
+    }
+    </style>
+    <ul>
+    <li class="navbar-item">
+    
+        <a href="{{ url_for('home.home') }} " class="nav-link">
+            <img src="/static/img/logo1.png " id="logo " class="nav">
+        </a>
+    </li>
+    <li class="nav-item">
+        <a href="{{ url_for('users.logout' ) }} "class="nav-link">
+            <i class="fa fa-power-off"></i>
+            <span class="link-text">Logout</span>
+        </a>
+    </li>
+    </ul>
+    <div class="center">
+    {% include 'includes/msg.html' %}
+
+    {% if user.photos %}
+        {% for photo in user.photos %}
+            <div id="photo{{ loop.index0 }}" class="modal" style="position: relative;">
+                <img src="{{ photo }}" class="pic">
+            </div>
+        {% endfor %}
+    {% endif %}
+    <body>
+        </br>
+    <div id="match_msg" class="modal">
+        <form action="#" id="send_message" class="flex flex-col w-full h-full p-4">
+            <label for="message" class="p-1 text-sm font-hairline">Message</label>
+            <textarea id="message" name="message" class="w-full h-full mt-1 p-2 rounded border border-grey-lighter text-sm text-grey-darker font-hairline"></textarea>
+            <button type="submit" form="send_message" id="submit_send_message" class="self-end py-2 px-4 mt-2 bg-transparent rounded text-blue-dark text-xs">Send</button>
+        </form>
+    </div>
+    <div class="flex flex-col lg:w-1/2 w-3/4 bg-white self-center items-center shadow rounded-lg mb-2">
+        {% if like %}
+            {% if like.returned %}
+                <div class="flex flex-row justify-center items-center p-4 text-red font-hairline text-xs">
+                    <i class="far fa-heart mr-2 text-base"></i>
+                    <p>You have a match with this person!</p>
+                    <p class="text-black mx-2">&#8594;</p>
+                    <a href="#match_msg" rel="modal:open"  class="flex text-blue-dark">
+                        Send a message!
+                    </a>
+                </div>
+                <div class="flex flex-row font-hairline text-xs pb-4">
+                    <a href="#unlike_profile" id="unlike_profile" class="flex">
+                        Cancel like
+                    </a>
+                    {% if not report %}
+                        <!-- <span class="mx-2">|</span> -->
+                        <a href="#report_profile" id="report_profile" class="flex">
+                            Report
+                        </a>
+                    {% endif %}
+                    <!-- <span class="mx-2">|</span> -->
+                    <a href="#block_profile" id="block_profile" class="flex">
+                        Block
+                    </a>
+                </div>
+            {% elif like.from_id == session.user.id %}
+                <div class="flex flex-row justify-center items-center text-center p-4 text-red font-hairline text-xs">
+                    <i class="far fa-heart mr-2 text-base"></i>
+                    <p>You already like this person!</p>
+                </div>
+                <div class="flex flex-row font-hairline text-xs pb-4">
+                    <a href="#unlike_profile" id="unlike_profile" class="flex">      
+                        Cancel like
+                    </a>
+                    {% if not report %}
+                        <!-- <span class="mx-2">|</span> -->
+                        <a href="#report_profile" id="report_profile" class="flex">
+                            Report
+                        </a>
+                    {% endif %}
+                    <!-- <span class="mx-2">|</span> -->
+                    <a href="#block_profile" id="block_profile" class="flex">
+                        Block
+                    </a>
+                </div>
+            {% elif like.from_id == user.id %}
+                <div class="flex flex-row justify-center items-center text-center p-4 text-red font-hairline text-xs">
+                    <i class="far fa-heart mr-2 text-base"></i>
+                    <p>This person liked you!</p>
+                    <p class="text-black mx-2">&#8594;</p>
+                    <a href="#like_profile" id="like_profile" class="flex text-blue-dark">
+                        Like back!
+                    </a>
+                </div>
+                <div class="flex flex-row font-hairline text-xs pb-4">
+                    <a href="#unlike_profile" id="unlike_profile" class="flex">
+                        
+                        Cancel the like
+                    </a>
+                    {% if not report %}
+                        <!-- <span class="mx-2">|</span> -->
+                        <a href="#report_profile" id="report_profile" class="flex">
+                            Report
+                        </a>
+                    {% endif %}
+                    <!-- <span class="mx-2">|</span> -->
+                    <a href="#block_profile" id="block_profile" class="flex">
+                        Block
+                    </a>
+                </div>
+            {% endif %}
+        {% else %}
+            <div class="flex flex-row justify-center items-center text-center p-4 text-red font-hairline text-xs">
+                <i class="far fa-heart mr-2 text-base"></i>
+                <a href="#like_profile" id="like_profile" class="flex text-blue-dark">
+                    Like this profile!
+                </a>
+                <i class="far fa-heart ml-2 text-base"></i>
+            </div>
+            <div class="flex flex-row font-hairline text-xs pb-4">
+                {% if not report %}
+                    <a href="#report_profile" id="report_profile" class="flex">
+                        Report
+                    </a>
+                {% endif %}
+                <!-- <span class="mx-2">|</span> -->
+                <a href="#block_profile" id="block_profile" class="flex">
+                    Block
+                </a>
+            </div>
+        {% endif %}
+    </div>
+    <!-- <div class="flex flex-col lg:w-1/4 md:w-1/3 sm:w-1/2 w-2/3 bg-white self-center items-center shadow rounded-lg">
+        <div class="flex flex-col w-full relative items-center justify-center">
+            {% if user.main_photo %}
+                <img class="w-full h-full rounded-t-lg" src="{{ user.main_photo }}">
+            {% else %}
+                <img class="w-full h-full rounded-t-lg" src="https://d3buf9vqrgrft6.cloudfront.net/assets/default_user-e9127509183b26c6472a9ef6b49a5719.png">
+            {% endif %}
+            <div class="flex flex-row">
+                {% if user.photos %}
+                    {% for photo in user.photos %}
+                        {% if photo != user.main_photo %}
+                            <a href="#photo{{ loop.index0 }}" rel="modal:open" class="w-1/4 h-auto">
+                                <img src="{{ photo }}" class="w-full h-full">
+                            </a>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            </div>
+        </div> -->
+        <div class="flex flex-row w-full p-2 pl-4 items-center justify-center text-grey-darker text-xs">
+            {% if user.is_connected %}
+                <p class="w-4 h-4 rounded-full bg-green mr-1"></p>
+                <p class="pt-1">Online</p>
+            {% elif user.last_connection %}
+                <p class="w-4 h-4 rounded-full bg-red mr-1"></p>
+                <p class="pt-1">Offline : {{ user.last_connection }}</p>
+            {% else %}
+                <p class="w-4 h-4 rounded-full bg-red mr-1"></p>
+                <!-- <p class="pt-1">Automatic account</p> -->
+            {% endif %}
+        </div>
+        <div class="flex flex-row w-full justify-between p-4 text-grey-darker">
+            <p class="flex flex-row items-center">
+                {% if user.gender == 'm' %}
+                    <i class="fas fa-mars sm:text-2xl text-base"></i>
+                {% elif user.gender == 'f' %}
+                    <i class="fas fa-venus sm:text-2xl text-base"></i>
+                {% elif user.gender == 't' %}
+                    <i class="fas fa-transgender sm:text-2xl text-base"></i>
+                {% elif user.gender == 'o' %}
+                    <i class="fas fa-genderless sm:text-2xl text-base"></i>
+                {% endif %}
+                <span class="pl-2 sm:text-base text-sm font-semibold">
+                    {{ user.firstname }}
+                </span>
+                <span class="pl-1 sm:text-base text-sm font-semibold">
+                    {{ user.lastname.0 }}.
+                </span>
+                <span class="pl-1 text-xs font-hairline">
+                    (<i class="fas fa-star"></i>
+                    {{ user.popularity }})
+                </span>
+            </p>
+            <p class="flex flex-row sm:text-base text-sm font-semibold">
+                {{ user.age }} yrs
+            </p>
+        </div>
+        <div class="flex flex-row w-full justify-center pl-4 text-grey-darker">
+            <p class="flex flex-row text-sm items-center">
+                {{ user.city }}
+                <span class="text-xs ml-1">({{ distance }} km from you)</span>
+            </p>
+        </div>
+        <div class="flex flex-col w-full p-4 text-grey-darker">
+            <p class="flex flex-row justify-center items-center">
+                {% if user.orientation|length > 0 %}
+                    <i class="far fa-heart" style="color: red;"></i>
+                {% endif %}
+                {% for o in user.orientation %}
+                    {% if o == 'm' %}
+                        <i class="fas fa-mars" style="color: blue;"></i>
+                    {% elif o == 'f' %}
+                        <i class="fas fa-venus" style="color: pink;"></i>
+                    {% elif o == 't' %}
+                        <i class="fas fa-transgender" style="color: rgb(71, 169, 250) ;"></i>
+                    {% elif o == 'o' %}
+                        <i class="fas fa-genderless" style="color: currentColor;"></i>
+                    {% endif %}
+                {% endfor %}
+                {% if user.orientation|length > 0 %}
+                    <i class="far fa-heart text-red ml-2"></i>
+                {% endif %}
+            </p>
+        </div>
+    
+    <div class="flex flex-row flex-wrap md:w-1/2 w-3/4 self-center items-center justify-center m-4 p-4">
+        {% if user.tags %}
+            {% for tag in user.tags %}
+                <p class="bg-white rounded px-3 py-2 text-sm font-hairline text-grey-darker m-1">#{{ tag }}</p>
+            {% endfor %}
+        {% else %}
+            <p class="bg-white rounded px-3 py-2 text-sm font-hairline text-grey-darker m-1">No tag.</p>
+        {% endif %}
+    </div>
+    <div class="flex md:w-1/2 w-3/4 self-center items-center justify-center text-center p-4 bg-white shadow rounded font-hairline">
+        {% if user.bio %}
+            <p>{{ user.bio|safe }}</p>
+        {% else %}
+            <p>Bio.</p>
+        {% endif %}
+    </div>
+</body>
+</div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script>
+    let user = "{{ user.id }}";
+    let visitor = "{{ session.user.id }}";
+
+    if (user !== visitor) {
+        socket.emit('new visit', {
+            from_id: visitor, dest_id: user
+        });
+    }
+
+    $("#submit_send_message").click(function() {
+        let msg = $("textarea#message").val();
+        socket.emit('new message', {
+            content: msg, dest_id: user
+        });
+    });
+
+    $("#like_profile").click(function() {
+        socket.emit('new like', {
+            from_id: visitor, dest_id: user
+        });
+        location.reload();
+    });
+
+    $("#unlike_profile").click(function() {
+        socket.emit('unlike', {
+            from_id: visitor, dest_id: user
+        });
+        location.reload();
+    });
+
+    $("#report_profile").click(function() {
+        socket.emit('report', {
+            from_id: visitor, dest_id: user
+        });
+        location.reload();
+    });
+
+    $("#block_profile").click(function() {
+        socket.emit('block', {
+            from_id: visitor, dest_id: user
+        });
+        location.reload();
+    });
+
+
+</script>
+{% endblock %}

@@ -1,0 +1,20 @@
+{% extends "layout.html" %}
+
+{% block title %}
+Conversations
+{% endblock %}
+
+{% block content %}
+    {% include 'includes/msg.html' %}
+    <main>
+    <div>
+        {% for chat in chats %}
+            <div>
+                <a href="{{ url_for('profile.get_conv', conv_id=chat.id) }}" style="color: chartreuse;">
+                    <i class="far fa-comments" style="font-size: 5rem;">{{ chat.id }}</i>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+    </main>
+{% endblock %}

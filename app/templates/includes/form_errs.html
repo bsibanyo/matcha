@@ -1,0 +1,14 @@
+{% if errors %}
+    <div role="alert">
+        <div>
+            Please fix this:
+        </div>
+        <div>
+            {% for err in errors %}
+                <div >
+                    <p   style="color: firebrick;">{{ err }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endif %}

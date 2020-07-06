@@ -1,0 +1,9 @@
+pip3 install Flask
+pip3 install flask-wtf
+pip3 install flask-socketio
+pip3 install flask-paginate
+pip3 install eventlet
+pip3 install python-dateutil
+pip3 install requests
+pip3 install opencage
+pip3 install numpy

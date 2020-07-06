@@ -1,0 +1,91 @@
+
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <link rel="icon" type="image/png" sizes="32x32" href="static/img/logo1.png">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.1/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <meta name="referrer" content="no-referrer">
+    <meta name="robots" content="noindex, nofollow, nosnippet, noarchive, noodp">
+    <meta name="google" content="noimageindex">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="static/css/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:400,600,700,800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+
+{% include 'includes/msg.html' %}
+<form action="" method="post">
+    
+    
+    <div class="cont">
+        <!-- SIGN IN -->
+        <div class="form sign-in">
+            <h2>Forgot your password</h2>
+            <label>
+                <span>Email</span>
+                <input id="email" name="email" type="email" max="40" required>
+            </label>
+            <button class="submit" type="submit">Get Link</button>
+            {{ form.csrf_token }} {% include 'includes/form_errs.html' %}
+        </div>
+    </form>
+    
+    <!-- SLIDE -->
+    <div class="sub-cont">
+            <div class="img">
+              <div class="img-text m-up">
+                <h2>I Remember!</h2>
+                <p>I want to discover great amount of new opportunities, Take me back to the Sign In Page!</p>
+              </div>
+              <div class="img-btn">
+                  <a href="{{ url_for('users.login') }} ">
+                      <span class="m-up">Sign In</span>
+                  </a>
+              </div>
+            </div>
+            
+        </div> 
+    </div>
+</div>
+</form>
+
+
+<!-- <script type="text/javascript" src="static/js/script.js"></script> -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+<script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/socket.io/1.3.6/socket.io.min.js"></script>
+<script type="text/javascript">
+    let socket = io.connect('http://' + document.domain + ':' + location.port);
+    socket.on('connect', function() {
+        socket.on('new notif', function(data) {
+            let panel_notif = $("#panel-notif");
+            panel_notif.find('#message').text(data['message']);
+            if (data['link']) {
+                panel_notif.find('#link_notif').attr('href', data['link']);
+            }
+            $("#show-panel-notif").trigger("click");
+        });
+    });
+
+    $("#show-panel-conv").click(function() {
+        $("#panel-conv").show();
+    });
+    $("#hide-panel-conv").click(function() {
+        $("#panel-conv").hide();
+    });
+
+    window.onbeforeunload = function() {
+        socket.on('disconnect', function() {});
+    };
+</script>
+{% block script %}{% endblock %}
+</body>
+
+</html>
+
+
+

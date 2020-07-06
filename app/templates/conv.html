@@ -1,0 +1,47 @@
+
+{% block title %}
+{{ user.username }} · Conversation {{ conv.id }}
+{% endblock %}
+
+{% block content %}
+    {% include 'includes/msg.html' %}
+    <li class="navbar-item">
+
+        <a href="{{ url_for('home.home') }} " class="nav-link">
+            <img src="/static/img/logo1.png " id="logo " class="nav-link">
+        </a>
+    </li>
+    <main>
+    <div>
+        {% for message in messages %}
+            <div >
+                {{ message|safe }}
+            </div>
+        {% endfor %}
+    </div>
+    <form action="#" id="send_message">
+        {{ form.csrf_token }}
+        <label for="message">Message</label>
+        <textarea id="message" name="message"></textarea>
+        <button type="submit" form="send_message" id="submit_send_message">Send</button>
+    </form>
+    </main>
+{% endblock %}
+
+{% block script %}
+<script>
+    let user = "{{ conv.dest_id }}";
+    let visitor = "{{ session.user.id }}";
+
+    if (user === visitor) {
+        user = "{{ conv.from_id }}";
+    }
+
+    $("#submit_send_message").click(function() {
+        let msg = $("textarea#message").val();
+        socket.emit('new message', {
+            content: msg, dest_id: user
+        });
+    });
+</script>
+{% endblock %}

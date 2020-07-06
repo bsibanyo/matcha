@@ -1,0 +1,182 @@
+<style>
+    body{
+        top: 0;
+        margin: 0;
+        justify-content: center;
+        align-items: center;
+        font-family: 'Nunito', sans-serif;
+        font-size: 18px;
+    }
+    ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        overflow: hidden;
+        background: #fafafa;
+    }
+    li{
+        float: left;
+    }
+    li .nav{
+        width: 110px;
+        height: 90px;
+    }
+    li,a{
+        display: block;
+        color:black;
+        text-align: center;
+        /* padding: 14px 16px; */
+        text-decoration: none;
+        list-style: none;
+    }
+    li a:hover {
+        background-color: #fafafa;
+    }
+    .center{
+        width: 1000px;
+    }
+    button, input[type=submit]{
+        width: 90px;
+        background-color:#ff727e;
+        color: #fafafa;
+        padding: 8px;
+        /* margin: 8px 0; */
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+    textarea, input[type=text]{
+        width: 250px;
+        height: 80px;
+        border: 3px solid #ff727e;
+        padding: 5px;
+        font-family: Tahoma, sans-serif;
+    }
+.center {
+        margin: auto;
+        width: 60%;
+        /* border: 3px solid black; */
+        padding: 10px;
+        background: #fafafa;
+    }
+</style>
+<ul>
+<li class="navbar-item" style="list-style-type:none;">
+
+    <a href="{{ url_for('home.home') }} " class="nav-link">
+        <img src="/static/img/logo1.png " id="logo " class="nav">
+    </a>
+</li>
+
+{% block title %}
+    {{ user.username }} · profile
+{% endblock %}
+
+{% block content %}
+</ul>
+<div class="center">
+{% include 'includes/msg.html' %}
+<div class="flex flex-col sm:w-1/2 w-full bg-white self-center items-center shadow rounded-lg">
+    <div class="flex flex-col w-full">
+        <div class="flex flex-col w-full justify-center p-2">
+            {% if user.photos %}
+                {% for photo in user.photos %}
+                    <div class="flex flex-row w-full justify-between p-2">
+                        {% if photo == user.main_photo %}
+                            <img src="{{ photo }}" class="w-12 h-12 self-begin rounded-lg p-1 border border-red">
+                            <div class="flex flex-row items-center">
+                                <p class="py-2 px-4 text-red text-xs">Edit to remove</p>
+                            </div>
+                        {% else %}
+                            <img src="{{ photo }}" class="w-12 h-12 rounded">
+                            <div class="flex flex-row items-center">
+                                <a href="{{ url_for('profile.define_main_photo') }}?id={{ loop.index0 }}">
+                                    <button >Main photo</button>
+                                </a>
+                                 <a href="{{ url_for('profile.delete_photo') }}?id={{ loop.index0 }}">
+                                    <button >Remove</button>
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+        <div class="flex flex-row justify-center">
+            {% if not user.photos or user.photos|length < 5 %}
+                <form action="{{ url_for('profile.add_photos') }}" method="post" class="flex flex-row justify-center w-full">
+                    {{ form.csrf_token }}
+                    <input required type="text" id="photo" name="photo" placeholder="New picture link" class="bg-transparent text-grey-darker border border-grey-light rounded p-1 m-2 focus:bg-white">
+                    <input type="submit" value="+" class="py-2 px-4 bg-transparent rounded text-red-dark">
+                </form>
+            {% endif %}
+        </div>
+    </div>
+</div>
+<div class="flex flex-col sm:w-2/3 w-full mx-auto m-4 p-4 bg-white shadow rounded-lg">
+    <div class="flex flex-row flex-wrap md:w-1/2 w-3/4 self-center items-center justify-center p-4" id="tags-container">
+        {% if user.tags %}
+            {% for tag in user.tags %}
+                <a href="{{ url_for('profile.delete_tags') }}?tag={{ tag }}">
+                    <p class="bg-white rounded px-3 py-2 text-sm font-hairline text-grey-darker m-1 border border-grey-darker p-1 hover:bg-red hover:text-white">#{{ tag }}</p>
+                </a>
+            {% endfor %}
+        {% else %}
+            <p class="bg-white rounded px-3 py-2 text-sm font-hairline text-red text-center m-1" id="tag-error" style="color: green;">To complete the profile, at least a tag and picture is required!</p>
+        {% endif %}
+    </div>
+    {% if not user.tags or user.tags|length < 5 %}
+        <form action="{{ url_for('profile.add_tags') }}" method="post" id="add_tag" class="w-full flex flex-row w-full mb-3 p-1">
+            {{ form.csrf_token }}
+            <input list="tags" type="text" id="tag" name="tag" form="add_tag" placeholder="New tag" class="w-2/4 ml-auto bg-grey-lightest text-grey-darker border border-grey-light rounded xl:p-3 p-2 text-sm focus:bg-white">
+            <datalist id="tags">
+                {% for tag in tags %}
+                    <option>{{ tag }}</option>
+                {% endfor %}
+            </datalist>
+            <input type="submit" form="add_tag" value="+" class="bg-transparent w-12 mr-auto text-black text-xl hover:cursor hover:text-grey-darker">
+        </form>
+    {% endif %}
+</div>
+<form action="{{ url_for('profile.define_geolocation') }}" method="post" class="flex flex-col sm:w-2/3 w-full mx-auto m-4 p-4 bg-white shadow rounded-lg">
+    {{ form.csrf_token }}
+    <label for="addr" class="p-1 text-sm font-hairline">Enter City</label>
+    <input type="text" id="addr" name="addr" class="w-full bg-grey-lightest text-grey-darker border border-grey-light rounded xl:p-3 p-2 text-sm focus:bg-white">
+    <input type="submit" value="Enter" class="w-auto py-2 px-2 bg-red rounded text-white text-xs mt-3">
+</form>
+<form action="" method="post" class="flex flex-col sm:w-2/3 w-full mx-auto m-4 p-4 bg-white shadow rounded-lg">
+    {{ form.csrf_token }}
+    {% include 'includes/form_errs.html' %}
+    <div class="flex flex-col w-full mb-3">
+        <label for="gender" class="p-1 text-sm font-hairline">Gender</label>
+        <select class="w-full bg-grey-lightest text-grey-darker border border-grey-light rounded p-1 text-sm focus:bg-white" id="gender" name="gender" required>
+            {% for choice in form.gender.choices %}
+                <option value="{{ choice.0 }}">{{ choice.1 }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="flex flex-col w-full mb-3">
+        <label for="orientation" class="p-1 text-sm font-hairline">Orientation</label>
+        <select class="w-full h-24 bg-grey-lightest text-grey-darker border border-grey-light rounded px-1 text-sm focus:bg-white" id="orientation" name="orientation"  required>
+            {% for choice in form.orientation.choices %}
+                {% if choice.0 in user.orientation %}
+                    <option class="py-1" value="{{ choice.0 }}" selected>{{ choice.1 }}</option>
+                {% else %}
+                    <option class="py-1" value="{{ choice.0 }}">{{ choice.1 }}</option>
+                {% endif %}
+            {% endfor %}
+        </select>
+    </div>
+    <div class="flex flex-col w-full mb-3">
+        <label for="bio" class="p-1 text-sm font-hairline">Biography</label>
+        <textarea required name="bio" id="bio" class="w-full h-48 bg-grey-lightest text-grey-darker border border-grey-light rounded p-2 text-sm focus:bg-white">{{ user.bio or "" }}</textarea>
+    </div>
+    <input type="submit" value="Update" class="w-auto py-2 px-2 bg-red rounded text-white text-xs">
+</form>
+<div class="flex flex-row w-full justify-center">
+    <a href="{{ url_for('profile.reset_password') }}">
+        <button type="button" class="py-2 px-4 bg-transparent rounded text-blue-dark text-xs">Change the password</button>
+    </a>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,9 @@
+#Database
+matcha.db
+
+#Environment
+venv
+
+__pycache__
+
+.vscode

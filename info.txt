@@ -1,0 +1,5 @@
+Socketio
+#find the port
+netstat -ano|findstr 8080
+#kill it
+tskill 19088
