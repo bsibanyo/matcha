@@ -28,7 +28,7 @@ class RegisterForm(GenericForm):
     v_pwd = r"^(?=.*\d)(?=.*[a-zA-Z]).{8,100}$", "Password : Must be between 8-100 characters or Mix the numbers with characters!"
     v_firstname = r"^\w{,40}$", "First Name : Must not exceed 40 characters"
     v_lastname = r"^\w{,40}$", "Last Name : Must not exceed 40 characters"
-    v_birthdate = r"^(0[1-9]|[12][0-9]|3[01])[- /.](0[1-9]|1[012])[- /.](19|20)\d\d$", "Date of Birth : Must be in this form --> DD/MM/YYYY"
+    v_birthdate = r"^\d{4}[\-\/\s]?((((0[13578])|(1[02]))[\-\/\s]?(([0-2][0-9])|(3[01])))|(((0[469])|(11))[\-\/\s]?(([0-2][0-9])|(30)))|(02[\-\/\s]?[0-2][0-9]))$", "Date of Birth : Must be in this form --> DD/MM/YYYY"
     v_email = r"^[^\W][a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\@[a-zA-Z0-9_]+(\.[a-zA-Z0-9_]+)*\.[a-zA-Z]{2,4}$", "Email Address : Must be in this form --> abc@example.co.za"
 
 

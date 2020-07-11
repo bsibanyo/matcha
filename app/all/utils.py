@@ -129,8 +129,8 @@ def send_mail(dest, subject, message):
 
 def calculate_age(birthdate):
     today = datetime.date.today()
-    bd = list(map(int, birthdate.split("/")))
-    return today.year - bd[2] - ((today.month, today.day) < (bd[1], bd[0]))
+    bd = list(map(int, birthdate.split("-")))
+    return today.year - bd[0] - ((today.month, today.day) < (bd[1], bd[2]))
 
 
 def get_ip_info(ip):
