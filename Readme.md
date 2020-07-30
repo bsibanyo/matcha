@@ -5,15 +5,15 @@ Everyone has a soul mate — at least that’s what fairytales would have us bel
     Tip the dating game odds in your favor by using this app to meet your match:
     
     
-SignUp![SignUp](/images/signIn.jpg)
+SignUp![SignUp](/images/signIn.JPG)
 
-Message![Message](/images/confirm.jpg)
+Message![Message](/images/confirm.JPG)
 
-Login![Login](/images/signIn.jpg)
+Login![Login](/images/signIn.JPG)
 
-Home![Home](/images/home.jpg)
-home1![Home1](/images/home1.jpg)
+Home![Home](/images/home.JPG)
+home1![Home1](/images/home1.JPG)
 
-Forgot Password![Forgot Password](/images/forgot.jpg)
+Forgot Password![Forgot Password](/images/forgot.JPG)
 
 
