@@ -26,9 +26,9 @@ Create Virtual environment
 
 
 Installation
-Navigate to the env and activate it
-Unix: cd venv/bin/activate
-Windows: cd venv/Scripts/activate
+* Navigate to the env and activate it
+* Unix: cd venv/bin/activate
+* Windows: cd venv/Scripts/activate
 
 Modules needed for this project
 
