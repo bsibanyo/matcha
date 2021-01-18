@@ -33,26 +33,26 @@ Installation
 Modules needed for this project
 
 For Unix:
-pip3 install Flask
-pip3 install flask-wtf
-pip3 install flask-socketio
-pip3 install flask-paginate
-pip3 install eventlet
-pip3 install python-dateutil
-pip3 install requests
-pip3 install opencage
-pip3 install numpy
+* pip3 install Flask
+* pip3 install flask-wtf
+* pip3 install flask-socketio
+* pip3 install flask-paginate
+* pip3 install eventlet
+* pip3 install python-dateutil
+* pip3 install requests
+* pip3 install opencage
+* pip3 install numpy
 
 For Windows:
-pip install Flask
-pip install flask-wtf
-pip install flask-socketio
-pip install flask-paginate
-pip install eventlet
-pip install python-dateutil
-pip install requests
-pip install opencage
-pip install numpy
+* pip install Flask
+* pip install flask-wtf
+* pip install flask-socketio
+* pip install flask-paginate
+* pip install eventlet
+* pip install python-dateutil
+* pip install requests
+* pip install opencage
+* pip install numpy
 
 How to download the source code
 Navigate to https://github.com/bsibanyo/matcha.git, click on clone or download
@@ -68,13 +68,13 @@ type localhost:3000 in your browser to open the website
 Code Breakdown
 
 Back end technologies
-Python
-sqlite3
+* Python
+* sqlite3
 Front-end technologies
-bootstrap
-Flask
-HTML
-CSS
+* bootstrap
+* Flask
+* HTML
+* CSS
 
 Break down of app folder structure
 
