@@ -70,6 +70,7 @@ Code Breakdown
 Back end technologies
 * Python
 * sqlite3
+
 Front-end technologies
 * bootstrap
 * Flask
