@@ -15,7 +15,7 @@ app.config['SECRET_KEY'] = "M@tch@"
 app.config['WTF_CSRF_ENABLED'] = True
 GMAIL_CRED = ("matchawithai@gmail.com", "@Bcd1234")
 
-opencagedata_key = "e118fe302e244090803c07bd74de2a5b"
+opencagedata_key = "b4095bb953174762ac641da1cab198b3"
 ipstack_key = "a69f40747fc519afa2b2b764e64e270c"
 
 csrf = CSRFProtect()
