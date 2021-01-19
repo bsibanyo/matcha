@@ -20,9 +20,9 @@ Forgot Password![Forgot Password](/images/forgot.JPG)
 
 
 Requirements
-python v2 and v3
-Database: db-sqlite3
-Create Virtual environment
+* python v2 and v3
+* Database: db-sqlite3
+* Create Virtual environment
 
 
 Installation
